@@ -1,84 +1,131 @@
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     lookUp = true
+    lookDown = false
+    lookLeft = false
+    lookRight = false
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     ProjectileP2 = sprites.createProjectileFromSprite(img`
-        . . . . . b b b b b . . . . . 
-        . . . b b 9 9 9 9 9 b b . . . 
-        . . b 9 9 9 9 9 9 9 9 b . . . 
-        . b 9 9 9 9 9 9 9 9 9 b . . . 
-        . b 9 9 9 9 9 9 9 9 9 b . . . 
-        b 9 9 9 9 9 9 9 9 9 9 b . . . 
-        . b 9 9 9 9 9 9 9 9 9 b . . . 
-        . . b 9 9 9 9 9 9 9 9 b . . . 
-        . . . b b 9 9 9 9 9 b b . . . 
-        . . . . . b b b b b . . . . . 
-        `, player2, -60, 0)
+        . . . . . b b b b b b . . . . . . 
+        . . . . b b 9 9 9 9 9 9 b b . . . 
+        . . . . b b 9 9 9 9 9 9 9 9 b b . 
+        . . . b b 9 d 9 9 9 9 9 9 9 9 b b 
+        . . b 9 d 9 9 9 9 9 1 1 1 9 9 b . 
+        b 9 d d 9 9 9 9 9 1 1 1 9 9 9 b . 
+        b 9 d 9 9 9 9 9 9 1 1 1 9 9 9 b . 
+        b 9 3 9 9 9 9 9 9 9 9 1 9 9 b . . 
+        b 5 3 d 9 9 9 9 9 9 9 9 9 9 9 b . 
+        b 5 3 3 9 9 9 9 9 9 9 9 9 d 9 b . 
+        b 5 d 3 3 9 9 9 9 9 9 9 d d 9 b . 
+        . b 5 3 3 3 d 9 9 9 9 d d 5 b . . 
+        . . b d 5 3 3 3 3 3 3 3 d 5 b b . 
+        . . . b d 5 d 3 3 3 3 5 5 b b . . 
+        . . . . b b 5 5 5 5 5 5 b b . . . 
+        . . . . . . b b b b b b . . . . . 
+        `, player2, -60, 50)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    checkDirection()
-})
-controller.down.onEvent(ControllerButtonEvent.Released, function () {
-    lookDown = false
+    if (lookDown) {
+        ProjectileP1 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . c c 8 . . . . 
+            . . . . . . 8 c c c f 8 c c . . 
+            . . . c c 8 8 f c a f f f c c . 
+            . . c c c f f f c a a f f c c c 
+            8 c c c f f f f c c a a c 8 c c 
+            c c c b f f f 8 a c c a a a c c 
+            c a a b b 8 a b c c c c c c c c 
+            a f c a a b b a c c c c c f f c 
+            a 8 f c a a c c a c a c f f f c 
+            c a 8 a a c c c c a a f f f 8 a 
+            . a c a a c f f a a b 8 f f c a 
+            . . c c b a f f f a b b c c 6 c 
+            . . . c b b a f f 6 6 a b 6 c . 
+            . . . c c b b b 6 6 a c c c c . 
+            . . . . c c a b b c c c . . . . 
+            . . . . . c c c c c c . . . . . 
+            `, player1, 0, 50)
+    } else if (lookUp) {
+        ProjectileP1 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . c c 8 . . . . 
+            . . . . . . 8 c c c f 8 c c . . 
+            . . . c c 8 8 f c a f f f c c . 
+            . . c c c f f f c a a f f c c c 
+            8 c c c f f f f c c a a c 8 c c 
+            c c c b f f f 8 a c c a a a c c 
+            c a a b b 8 a b c c c c c c c c 
+            a f c a a b b a c c c c c f f c 
+            a 8 f c a a c c a c a c f f f c 
+            c a 8 a a c c c c a a f f f 8 a 
+            . a c a a c f f a a b 8 f f c a 
+            . . c c b a f f f a b b c c 6 c 
+            . . . c b b a f f 6 6 a b 6 c . 
+            . . . c c b b b 6 6 a c c c c . 
+            . . . . c c a b b c c c . . . . 
+            . . . . . c c c c c c . . . . . 
+            `, player1, 0, -50)
+    } else if (lookLeft) {
+        ProjectileP1 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . c c 8 . . . . 
+            . . . . . . 8 c c c f 8 c c . . 
+            . . . c c 8 8 f c a f f f c c . 
+            . . c c c f f f c a a f f c c c 
+            8 c c c f f f f c c a a c 8 c c 
+            c c c b f f f 8 a c c a a a c c 
+            c a a b b 8 a b c c c c c c c c 
+            a f c a a b b a c c c c c f f c 
+            a 8 f c a a c c a c a c f f f c 
+            c a 8 a a c c c c a a f f f 8 a 
+            . a c a a c f f a a b 8 f f c a 
+            . . c c b a f f f a b b c c 6 c 
+            . . . c b b a f f 6 6 a b 6 c . 
+            . . . c c b b b 6 6 a c c c c . 
+            . . . . c c a b b c c c . . . . 
+            . . . . . c c c c c c . . . . . 
+            `, player1, -50, 0)
+    } else if (lookRight) {
+        ProjectileP1 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . c c 8 . . . . 
+            . . . . . . 8 c c c f 8 c c . . 
+            . . . c c 8 8 f c a f f f c c . 
+            . . c c c f f f c a a f f c c c 
+            8 c c c f f f f c c a a c 8 c c 
+            c c c b f f f 8 a c c a a a c c 
+            c a a b b 8 a b c c c c c c c c 
+            a f c a a b b a c c c c c f f c 
+            a 8 f c a a c c a c a c f f f c 
+            c a 8 a a c c c c a a f f f 8 a 
+            . a c a a c f f a a b 8 f f c a 
+            . . c c b a f f f a b b c c 6 c 
+            . . . c b b a f f 6 6 a b 6 c . 
+            . . . c c b b b 6 6 a c c c c . 
+            . . . . c c a b b c c c . . . . 
+            . . . . . c c c c c c . . . . . 
+            `, player1, 50, 0)
+    }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    lookUp = false
+    lookDown = false
     lookLeft = true
-})
-controller.right.onEvent(ControllerButtonEvent.Released, function () {
     lookRight = false
 })
-controller.left.onEvent(ControllerButtonEvent.Released, function () {
-    lookLeft = false
-})
-function checkDirection () {
-    speed = 60
-    if (lookUp) {
-        vy += 0 - speed
-    }
-    if (lookDown) {
-        vy += speed
-    }
-    if (lookLeft) {
-        vx += 0 - speed
-    }
-    if (lookRight) {
-        vx += speed
-    }
-    if (vx == 0 && vy == 0) {
-        return
-    }
-    ProjectileP1 = sprites.createProjectileFromSprite(img`
-        . . . . . c c 8 8 c c . . . . 
-        . . . c c f f f f f c c . . . 
-        . . c f f f a a a f f f c . . 
-        . c f f a a a a a a f f c . . 
-        . c f a a a c c c a a f c . . 
-        c f f a a c c c c a a f f c . 
-        c f f a a c c c c a a f f c . 
-        . c f a a a c c c a a f c . . 
-        . c f f a a a a a a f f c . . 
-        . . c f f f a a a f f f c . . 
-        . . . c c f f f f f c c . . . 
-        . . . . . c c 8 8 c c . . . . 
-        `, player1, vx, vy)
-}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    lookUp = false
+    lookDown = false
+    lookLeft = false
     lookRight = true
 })
-controller.up.onEvent(ControllerButtonEvent.Released, function () {
-    lookUp = false
-})
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    lookUp = false
     lookDown = true
+    lookLeft = false
+    lookRight = false
 })
 let ProjectileP1: Sprite = null
-let vx = 0
-let vy = 0
-let speed = 0
+let ProjectileP2: Sprite = null
 let lookRight = false
 let lookLeft = false
 let lookDown = false
-let ProjectileP2: Sprite = null
 let lookUp = false
 let player2: Sprite = null
 let player1: Sprite = null
@@ -104,10 +151,10 @@ player2 = sprites.create(img`
     `, SpriteKind.Player)
 controller.player1.moveSprite(player1)
 controller.player2.moveSprite(player2)
+scene.cameraFollowSprite(player1)
+scene.cameraFollowSprite(player2)
 player1.setStayInScreen(true)
 player2.setStayInScreen(true)
-scene.cameraFollowSprite(player1)
-effects.starField.startScreenEffect()
 game.onUpdate(function () {
     scene.centerCameraAt((player1.x + player2.x) / 2, (player1.y + player2.y) / 2)
 })
