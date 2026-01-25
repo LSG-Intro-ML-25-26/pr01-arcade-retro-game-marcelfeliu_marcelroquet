@@ -6,26 +6,27 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function on_on_overl
         return
     }
     
-    //  El jugador 1 no puede dañarse a sí mismo
     if (projectile == ProjectileP2 && player2 == p2) {
         return
     }
     
     projectile.destroy()
     if (player2 == p1) {
-        vida_p1 += 0 - 1
+        vida_p1 -= 1
         status_p1.value = vida_p1
         player2.startEffect(effects.fire, 200)
         if (vida_p1 <= 0) {
             p1.destroy(effects.disintegrate, 500)
+            game.over(false)
         }
         
     } else if (player2 == p2) {
-        vida_p2 += 0 - 1
+        vida_p2 -= 1
         status_p2.value = vida_p2
         player2.startEffect(effects.fire, 200)
         if (vida_p2 <= 0) {
             p2.destroy(effects.disintegrate, 500)
+            game.over(false)
         }
         
     }
@@ -292,6 +293,18 @@ status_p1.setBarBorder(1, 13)
 //  negro
 status_p2.setBarBorder(1, 13)
 //  negro
+function mostrar_ganador(ganador: any) {
+    //  Detener el juego
+    game.over(false)
+    //  Mostrar mensaje de ganador
+    if (ganador == 1) {
+        game.showLongText("¡Jugador 1 ha ganado!", DialogLayout.Bottom)
+    } else {
+        game.showLongText("¡Jugador 2 ha ganado!", DialogLayout.Bottom)
+    }
+    
+}
+
 game.onUpdate(function on_on_update() {
     scene.centerCameraAt((mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)).x + mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two)).x) / 2, (mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)).y + mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two)).y) / 2)
 })

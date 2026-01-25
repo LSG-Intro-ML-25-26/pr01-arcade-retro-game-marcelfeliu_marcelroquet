@@ -1,5 +1,8 @@
+
+
 disparo_p1 = False
 disparo_p2 = False
+
 
 
 def on_on_overlap(projectile, player2):
@@ -10,18 +13,23 @@ def on_on_overlap(projectile, player2):
     if projectile == ProjectileP2 and player2 == p2:
         return
     projectile.destroy()
+
     if player2 == p1:
-        vida_p1 += 0 - 1
+        vida_p1 -= 1
         status_p1.value = vida_p1
         player2.start_effect(effects.fire, 200)
         if vida_p1 <= 0:
             p1.destroy(effects.disintegrate, 500)
+            game.over(False)
+
     elif player2 == p2:
-        vida_p2 += 0 - 1
+        vida_p2 -= 1
         status_p2.value = vida_p2
         player2.start_effect(effects.fire, 200)
+
         if vida_p2 <= 0:
             p2.destroy(effects.disintegrate, 500)
+            game.over(False)
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap)
 
 def on_up_pressed():
@@ -313,6 +321,15 @@ status_p1.set_bar_border(1, 13)
 # negro
 status_p2.set_bar_border(1, 13)
 # negro
+
+def mostrar_ganador(ganador):
+    # Detener el juego
+    game.over(False)
+    # Mostrar mensaje de ganador
+    if ganador == 1:
+        game.show_long_text("¡Jugador 1 ha ganado!", DialogLayout.BOTTOM)
+    else:
+        game.show_long_text("¡Jugador 2 ha ganado!", DialogLayout.BOTTOM)
 
 def on_on_update():
     scene.center_camera_at((mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).x + mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)).x) / 2,
