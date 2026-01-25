@@ -1,5 +1,147 @@
-def on_button_multiplayer_a_pressed():
+disparo_p1 = False
+disparo_p2 = False
+
+
+def on_on_overlap(projectile, player2):
+    global vida_p1, vida_p2
+
+    if projectile == ProjectileP1 and player2 == p1:
+        return  
+    if projectile == ProjectileP2 and player2 == p2:
+        return
+    projectile.destroy()
+    if player2 == p1:
+        vida_p1 += 0 - 1
+        status_p1.value = vida_p1
+        player2.start_effect(effects.fire, 200)
+        if vida_p1 <= 0:
+            p1.destroy(effects.disintegrate, 500)
+    elif player2 == p2:
+        vida_p2 += 0 - 1
+        status_p2.value = vida_p2
+        player2.start_effect(effects.fire, 200)
+        if vida_p2 <= 0:
+            p2.destroy(effects.disintegrate, 500)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap)
+
+def on_up_pressed():
+    pass
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
+def on_button_multiplayer_b_pressed(player23):
+    global p1, vx, vy, ProjectileP1
+    disparo_p1 = True
+    disparo_p2 = False
+    if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
+        mp.MultiplayerButton.A):
+        pass
+    elif mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
+        mp.MultiplayerButton.B):
+        p1 = mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE))
+        vx = p1.vx
+        vy = p1.vy
+        if abs(vx) > abs(vy):
+            if vx > 0:
+                ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . c c c a c . . . .
+                        . . c c b b b a c a a a c . . .
+                        . c c a b a c b a a a b c c . .
+                        . c a b c f f f b a b b b a . .
+                        . c a c f f f 8 a b b b b b a .
+                        . c a 8 f f 8 c a b b b b b a .
+                        c c c a c c c c a b c f a b c c
+                        c c a a a c c c a c f f c b b a
+                        c c a b 6 a c c a f f c c b b a
+                        c a b c 8 6 c c a a a b b c b c
+                        c a c f f a c c a f a c c c b .
+                        c a 8 f c c b a f f c b c c c .
+                        . c b c c c c b f c a b b a c .
+                        . . a b b b b b b b b b b b c .
+                        . . . c c c c b b b b b c c . .
+                        . . . . . . . . c b b c . . . .
+                        """),
+                    p1,
+                    50,
+                    0)
+                
+            else:
+                ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                        . . . . . . . c c c a c . . . .
+                        . . c c b b b a c a a a c . . .
+                        . c c a b a c b a a a b c c . .
+                        . c a b c f f f b a b b b a . .
+                        . c a c f f f 8 a b b b b b a .
+                        . c a 8 f f 8 c a b b b b b a .
+                        c c c a c c c c a b c f a b c c
+                        c c a a a c c c a c f f c b b a
+                        c c a b 6 a c c a f f c c b b a
+                        c a b c 8 6 c c a a a b b c b c
+                        c a c f f a c c a f a c c c b .
+                        c a 8 f c c b a f f c b c c c .
+                        . c b c c c c b f c a b b a c .
+                        . . a b b b b b b b b b b b c .
+                        . . . c c c c b b b b b c c . .
+                        . . . . . . . . c b b c . . . .
+                        """),
+                    p1,
+                    -50,
+                    0)
+        elif vy > 0:
+            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . c c c a c . . . .
+                    . . c c b b b a c a a a c . . .
+                    . c c a b a c b a a a b c c . .
+                    . c a b c f f f b a b b b a . .
+                    . c a c f f f 8 a b b b b b a .
+                    . c a 8 f f 8 c a b b b b b a .
+                    c c c a c c c c a b c f a b c c
+                    c c a a a c c c a c f f c b b a
+                    c c a b 6 a c c a f f c c b b a
+                    c a b c 8 6 c c a a a b b c b c
+                    c a c f f a c c a f a c c c b .
+                    c a 8 f c c b a f f c b c c c .
+                    . c b c c c c b f c a b b a c .
+                    . . a b b b b b b b b b b b c .
+                    . . . c c c c b b b b b c c . .
+                    . . . . . . . . c b b c . . . .
+                    """),
+                p1,
+                0,
+                50)
+        else:
+            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . c c c a c . . . .
+                    . . c c b b b a c a a a c . . .
+                    . c c a b a c b a a a b c c . .
+                    . c a b c f f f b a b b b a . .
+                    . c a c f f f 8 a b b b b b a .
+                    . c a 8 f f 8 c a b b b b b a .
+                    c c c a c c c c a b c f a b c c
+                    c c a a a c c c a c f f c b b a
+                    c c a b 6 a c c a f f c c b b a
+                    c a b c 8 6 c c a a a b b c b c
+                    c a c f f a c c a f a c c c b .
+                    c a 8 f c c b a f f c b c c c .
+                    . c b c c c c b f c a b b a c .
+                    . . a b b b b b b b b b b b c .
+                    . . . c c c c b b b b b c c . .
+                    . . . . . . . . c b b c . . . .
+                    """),
+                p1,
+                0,
+                -50)
+mp.on_button_event(mp.MultiplayerButton.B,
+    ControllerButtonEvent.PRESSED,
+    on_button_multiplayer_b_pressed)
+
+def on_left_pressed():
+    pass
+controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
+
+def on_button_multiplayer_a_pressed(player22):
     global p2, vx, vy, ProjectileP2
+    disparo_p2 = True
+    disparo_p1 = False
     if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.TWO),
         mp.MultiplayerButton.B):
         pass
@@ -101,117 +243,6 @@ mp.on_button_event(mp.MultiplayerButton.A,
     ControllerButtonEvent.PRESSED,
     on_button_multiplayer_a_pressed)
 
-def on_up_pressed():
-    pass
-controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
-
-def on_left_pressed():
-    pass
-controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
-
-def on_button_multiplayer_b_pressed():
-    global p1, vx, vy, ProjectileP1
-    if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
-        mp.MultiplayerButton.A):
-        pass
-    elif mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
-        mp.MultiplayerButton.B):
-        p1 = mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE))
-        vx = p1.vx
-        vy = p1.vy
-        if abs(vx) > abs(vy):
-            if vx > 0:
-                ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                        . . . . . . . c c c a c . . . .
-                        . . c c b b b a c a a a c . . .
-                        . c c a b a c b a a a b c c . .
-                        . c a b c f f f b a b b b a . .
-                        . c a c f f f 8 a b b b b b a .
-                        . c a 8 f f 8 c a b b b b b a .
-                        c c c a c c c c a b c f a b c c
-                        c c a a a c c c a c f f c b b a
-                        c c a b 6 a c c a f f c c b b a
-                        c a b c 8 6 c c a a a b b c b c
-                        c a c f f a c c a f a c c c b .
-                        c a 8 f c c b a f f c b c c c .
-                        . c b c c c c b f c a b b a c .
-                        . . a b b b b b b b b b b b c .
-                        . . . c c c c b b b b b c c . .
-                        . . . . . . . . c b b c . . . .
-                        """),
-                    p1,
-                    50,
-                    0)
-            else:
-                ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                        . . . . . . . c c c a c . . . .
-                        . . c c b b b a c a a a c . . .
-                        . c c a b a c b a a a b c c . .
-                        . c a b c f f f b a b b b a . .
-                        . c a c f f f 8 a b b b b b a .
-                        . c a 8 f f 8 c a b b b b b a .
-                        c c c a c c c c a b c f a b c c
-                        c c a a a c c c a c f f c b b a
-                        c c a b 6 a c c a f f c c b b a
-                        c a b c 8 6 c c a a a b b c b c
-                        c a c f f a c c a f a c c c b .
-                        c a 8 f c c b a f f c b c c c .
-                        . c b c c c c b f c a b b a c .
-                        . . a b b b b b b b b b b b c .
-                        . . . c c c c b b b b b c c . .
-                        . . . . . . . . c b b c . . . .
-                        """),
-                    p1,
-                    -50,
-                    0)
-        elif vy > 0:
-            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                    . . . . . . . c c c a c . . . .
-                    . . c c b b b a c a a a c . . .
-                    . c c a b a c b a a a b c c . .
-                    . c a b c f f f b a b b b a . .
-                    . c a c f f f 8 a b b b b b a .
-                    . c a 8 f f 8 c a b b b b b a .
-                    c c c a c c c c a b c f a b c c
-                    c c a a a c c c a c f f c b b a
-                    c c a b 6 a c c a f f c c b b a
-                    c a b c 8 6 c c a a a b b c b c
-                    c a c f f a c c a f a c c c b .
-                    c a 8 f c c b a f f c b c c c .
-                    . c b c c c c b f c a b b a c .
-                    . . a b b b b b b b b b b b c .
-                    . . . c c c c b b b b b c c . .
-                    . . . . . . . . c b b c . . . .
-                    """),
-                p1,
-                0,
-                50)
-        else:
-            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                    . . . . . . . c c c a c . . . .
-                    . . c c b b b a c a a a c . . .
-                    . c c a b a c b a a a b c c . .
-                    . c a b c f f f b a b b b a . .
-                    . c a c f f f 8 a b b b b b a .
-                    . c a 8 f f 8 c a b b b b b a .
-                    c c c a c c c c a b c f a b c c
-                    c c a a a c c c a c f f c b b a
-                    c c a b 6 a c c a f f c c b b a
-                    c a b c 8 6 c c a a a b b c b c
-                    c a c f f a c c a f a c c c b .
-                    c a 8 f c c b a f f c b c c c .
-                    . c b c c c c b f c a b b a c .
-                    . . a b b b b b b b b b b b c .
-                    . . . c c c c b b b b b c c . .
-                    . . . . . . . . c b b c . . . .
-                    """),
-                p1,
-                0,
-                -50)
-mp.on_button_event(mp.MultiplayerButton.B,
-    ControllerButtonEvent.PRESSED,
-    on_button_multiplayer_b_pressed)
-
 def on_right_pressed():
     pass
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
@@ -220,15 +251,21 @@ def on_down_pressed():
     pass
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
-ProjectileP1: Sprite = None
 ProjectileP2: Sprite = None
+ProjectileP1: Sprite = None
 vy = 0
 vx = 0
+status_p2: StatusBarSprite = None
+status_p1: StatusBarSprite = None
 p2: Sprite = None
 p1: Sprite = None
+vida_p2 = 0
+vida_p1 = 0
 p22 = None
 vx2 = 0
 vy2 = 0
+vida_p1 = 3
+vida_p2 = 3
 tiles.set_current_tilemap(tilemap("""
     level1
     """))
@@ -262,6 +299,20 @@ scene.camera_follow_sprite(mp.get_player_sprite(mp.player_selector(mp.PlayerNumb
 scene.camera_follow_sprite(mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)))
 mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).set_stay_in_screen(True)
 mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).set_stay_in_screen(True)
+status_p1 = statusbars.create(20, 4, StatusBarKind.health)
+status_p1.attach_to_sprite(p1)
+status_p1.value = 3
+status_p1.max = 3
+status_p2 = statusbars.create(20, 4, StatusBarKind.health)
+status_p2.attach_to_sprite(p2)
+status_p2.value = 3
+status_p2.max = 3
+status_p1.value = vida_p1
+status_p2.value = vida_p2
+status_p1.set_bar_border(1, 13)
+# negro
+status_p2.set_bar_border(1, 13)
+# negro
 
 def on_on_update():
     scene.center_camera_at((mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).x + mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)).x) / 2,
