@@ -38,114 +38,6 @@ def on_on_overlap(projectile, player2):
             game.over(False)
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap)
 
-def on_button_multiplayer_b_pressed(player22):
-    global now, ultimo_disparo_p1, disparo_p12, p1, ProjectileP1
-    if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
-        mp.MultiplayerButton.A):
-        pass
-    elif mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
-        mp.MultiplayerButton.B):
-        now = game.runtime()
-        if now - ultimo_disparo_p1 < cooldown_disparo:
-            return
-        ultimo_disparo_p1 = now
-        actualizar_direccion_p1()
-        disparo_p12 = True
-        p1 = mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE))
-        if last_direction_p1 == "right":
-            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                    . . . . . . . c c c a c . . . .
-                    . . c c b b b a c a a a c . . .
-                    . c c a b a c b a a a b c c . .
-                    . c a b c f f f b a b b b a . .
-                    . c a c f f f 8 a b b b b b a .
-                    . c a 8 f f 8 c a b b b b b a .
-                    c c c a c c c c a b c f a b c c
-                    c c a a a c c c a c f f c b b a
-                    c c a b 6 a c c a f f c c b b a
-                    c a b c 8 6 c c a a a b b c b c
-                    c a c f f a c c a f a c c c b .
-                    c a 8 f c c b a f f c b c c c .
-                    . c b c c c c b f c a b b a c .
-                    . . a b b b b b b b b b b b c .
-                    . . . c c c c b b b b b c c . .
-                    . . . . . . . . c b b c . . . .
-                    """),
-                p1,
-                velocidad_proyectil,
-                0)
-        elif last_direction_p1 == "left":
-            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                    . . . . . . . c c c a c . . . .
-                    . . c c b b b a c a a a c . . .
-                    . c c a b a c b a a a b c c . .
-                    . c a b c f f f b a b b b a . .
-                    . c a c f f f 8 a b b b b b a .
-                    . c a 8 f f 8 c a b b b b b a .
-                    c c c a c c c c a b c f a b c c
-                    c c a a a c c c a c f f c b b a
-                    c c a b 6 a c c a f f c c b b a
-                    c a b c 8 6 c c a a a b b c b c
-                    c a c f f a c c a f a c c c b .
-                    c a 8 f c c b a f f c b c c c .
-                    . c b c c c c b f c a b b a c .
-                    . . a b b b b b b b b b b b c .
-                    . . . c c c c b b b b b c c . .
-                    . . . . . . . . c b b c . . . .
-                    """),
-                p1,
-                0 - velocidad_proyectil,
-                0)
-        elif last_direction_p1 == "down":
-            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                    . . . . . . . c c c a c . . . .
-                    . . c c b b b a c a a a c . . .
-                    . c c a b a c b a a a b c c . .
-                    . c a b c f f f b a b b b a . .
-                    . c a c f f f 8 a b b b b b a .
-                    . c a 8 f f 8 c a b b b b b a .
-                    c c c a c c c c a b c f a b c c
-                    c c a a a c c c a c f f c b b a
-                    c c a b 6 a c c a f f c c b b a
-                    c a b c 8 6 c c a a a b b c b c
-                    c a c f f a c c a f a c c c b .
-                    c a 8 f c c b a f f c b c c c .
-                    . c b c c c c b f c a b b a c .
-                    . . a b b b b b b b b b b b c .
-                    . . . c c c c b b b b b c c . .
-                    . . . . . . . . c b b c . . . .
-                    """),
-                p1,
-                0,
-                velocidad_proyectil)
-        elif last_direction_p1 == "up":
-            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
-                    . . . . . . . c c c a c . . . .
-                    . . c c b b b a c a a a c . . .
-                    . c c a b a c b a a a b c c . .
-                    . c a b c f f f b a b b b a . .
-                    . c a c f f f 8 a b b b b b a .
-                    . c a 8 f f 8 c a b b b b b a .
-                    c c c a c c c c a b c f a b c c
-                    c c a a a c c c a c f f c b b a
-                    c c a b 6 a c c a f f c c b b a
-                    c a b c 8 6 c c a a a b b c b c
-                    c a c f f a c c a f a c c c b .
-                    c a 8 f c c b a f f c b c c c .
-                    . c b c c c c b f c a b b a c .
-                    . . a b b b b b b b b b b b c .
-                    . . . c c c c b b b b b c c . .
-                    . . . . . . . . c b b c . . . .
-                    """),
-                p1,
-                0,
-                0 - velocidad_proyectil)
-    else:
-        pass
-mp.on_button_event(mp.MultiplayerButton.B,
-    ControllerButtonEvent.PRESSED,
-    on_button_multiplayer_b_pressed)
-
 def on_up_pressed():
     pass
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
@@ -270,6 +162,114 @@ def on_down_pressed():
     pass
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
+def on_button_multiplayer_b_pressed(player22):
+    global now, ultimo_disparo_p1, disparo_p12, p1, ProjectileP1
+    if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
+        mp.MultiplayerButton.A):
+        pass
+    elif mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
+        mp.MultiplayerButton.B):
+        now = game.runtime()
+        if now - ultimo_disparo_p1 < cooldown_disparo:
+            return
+        ultimo_disparo_p1 = now
+        actualizar_direccion_p1()
+        disparo_p12 = True
+        p1 = mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE))
+        if last_direction_p1 == "right":
+            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . c c c a c . . . .
+                    . . c c b b b a c a a a c . . .
+                    . c c a b a c b a a a b c c . .
+                    . c a b c f f f b a b b b a . .
+                    . c a c f f f 8 a b b b b b a .
+                    . c a 8 f f 8 c a b b b b b a .
+                    c c c a c c c c a b c f a b c c
+                    c c a a a c c c a c f f c b b a
+                    c c a b 6 a c c a f f c c b b a
+                    c a b c 8 6 c c a a a b b c b c
+                    c a c f f a c c a f a c c c b .
+                    c a 8 f c c b a f f c b c c c .
+                    . c b c c c c b f c a b b a c .
+                    . . a b b b b b b b b b b b c .
+                    . . . c c c c b b b b b c c . .
+                    . . . . . . . . c b b c . . . .
+                    """),
+                p1,
+                velocidad_proyectil,
+                0)
+        elif last_direction_p1 == "left":
+            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . c c c a c . . . .
+                    . . c c b b b a c a a a c . . .
+                    . c c a b a c b a a a b c c . .
+                    . c a b c f f f b a b b b a . .
+                    . c a c f f f 8 a b b b b b a .
+                    . c a 8 f f 8 c a b b b b b a .
+                    c c c a c c c c a b c f a b c c
+                    c c a a a c c c a c f f c b b a
+                    c c a b 6 a c c a f f c c b b a
+                    c a b c 8 6 c c a a a b b c b c
+                    c a c f f a c c a f a c c c b .
+                    c a 8 f c c b a f f c b c c c .
+                    . c b c c c c b f c a b b a c .
+                    . . a b b b b b b b b b b b c .
+                    . . . c c c c b b b b b c c . .
+                    . . . . . . . . c b b c . . . .
+                    """),
+                p1,
+                0 - velocidad_proyectil,
+                0)
+        elif last_direction_p1 == "down":
+            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . c c c a c . . . .
+                    . . c c b b b a c a a a c . . .
+                    . c c a b a c b a a a b c c . .
+                    . c a b c f f f b a b b b a . .
+                    . c a c f f f 8 a b b b b b a .
+                    . c a 8 f f 8 c a b b b b b a .
+                    c c c a c c c c a b c f a b c c
+                    c c a a a c c c a c f f c b b a
+                    c c a b 6 a c c a f f c c b b a
+                    c a b c 8 6 c c a a a b b c b c
+                    c a c f f a c c a f a c c c b .
+                    c a 8 f c c b a f f c b c c c .
+                    . c b c c c c b f c a b b a c .
+                    . . a b b b b b b b b b b b c .
+                    . . . c c c c b b b b b c c . .
+                    . . . . . . . . c b b c . . . .
+                    """),
+                p1,
+                0,
+                velocidad_proyectil)
+        elif last_direction_p1 == "up":
+            ProjectileP1 = sprites.create_projectile_from_sprite(img("""
+                    . . . . . . . c c c a c . . . .
+                    . . c c b b b a c a a a c . . .
+                    . c c a b a c b a a a b c c . .
+                    . c a b c f f f b a b b b a . .
+                    . c a c f f f 8 a b b b b b a .
+                    . c a 8 f f 8 c a b b b b b a .
+                    c c c a c c c c a b c f a b c c
+                    c c a a a c c c a c f f c b b a
+                    c c a b 6 a c c a f f c c b b a
+                    c a b c 8 6 c c a a a b b c b c
+                    c a c f f a c c a f a c c c b .
+                    c a 8 f c c b a f f c b c c c .
+                    . c b c c c c b f c a b b a c .
+                    . . a b b b b b b b b b b b c .
+                    . . . c c c c b b b b b c c . .
+                    . . . . . . . . c b b c . . . .
+                    """),
+                p1,
+                0,
+                0 - velocidad_proyectil)
+    else:
+        pass
+mp.on_button_event(mp.MultiplayerButton.B,
+    ControllerButtonEvent.PRESSED,
+    on_button_multiplayer_b_pressed)
+
 def actualizar_direccion_p2():
     global vx2, vy2, last_direction_p2
     vx2 = p2.vx
@@ -286,12 +286,12 @@ def actualizar_direccion_p2():
             last_direction_p2 = "up"
 vy2 = 0
 vx2 = 0
-disparo_p23 = False
-ultimo_disparo_p2 = 0
-now2 = 0
 disparo_p12 = False
 ultimo_disparo_p1 = 0
 now = 0
+disparo_p23 = False
+ultimo_disparo_p2 = 0
+now2 = 0
 ProjectileP2: Sprite = None
 ProjectileP1: Sprite = None
 vy = 0
@@ -306,11 +306,11 @@ velocidad_proyectil = 0
 cooldown_disparo = 0
 last_direction_p2 = ""
 last_direction_p1 = ""
-vy22 = 0
-vx22 = 0
-vy3 = 0
-vx3 = 0
 now3 = 0
+vx3 = 0
+vy3 = 0
+vx22 = 0
+vy22 = 0
 last_direction_p1 = "right"
 last_direction_p2 = "left"
 cooldown_disparo = 500
@@ -323,6 +323,7 @@ tiles.set_current_tilemap(tilemap("""
 p1 = sprites.create(assets.image("""
     nena-front
     """), SpriteKind.player)
+p1.set_position(0, 54)
 p2 = sprites.create(img("""
         . . . . . . . . . . . . . . . .
         . . . . . . f f f f . . . . . .
@@ -342,6 +343,7 @@ p2 = sprites.create(img("""
         . . . . f f . . . f f f . . . .
         """),
     SpriteKind.player)
+p2.set_position(160, 54)
 mp.set_player_sprite(mp.player_selector(mp.PlayerNumber.ONE), p1)
 mp.set_player_sprite(mp.player_selector(mp.PlayerNumber.TWO), p2)
 mp.move_with_buttons(mp.player_selector(mp.PlayerNumber.ONE), 100, 100)
@@ -358,8 +360,9 @@ status_p2 = statusbars.create(20, 4, StatusBarKind.health)
 status_p2.attach_to_sprite(p2)
 status_p2.value = vida_p2
 status_p2.max = vida_p2
-status_p1.set_bar_border(1, 13)
-status_p2.set_bar_border(1, 13)
+status_p1.set_bar_border(1, 15)
+status_p1.set_color(7, 2)
+status_p2.set_bar_border(1, 15)
 def mostrar_ganador(ganador: any):
     game.over(False)
     if ganador == 1:
@@ -370,6 +373,5 @@ def mostrar_ganador(ganador: any):
 def on_on_update():
     actualizar_direccion_p1()
     actualizar_direccion_p2()
-    scene.center_camera_at((mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).x + mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)).x) / 2,
-        (mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).y + mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)).y) / 2)
+    scene.center_camera_at((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
 game.on_update(on_on_update)
