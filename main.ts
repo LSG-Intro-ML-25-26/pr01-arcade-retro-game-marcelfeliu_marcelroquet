@@ -1,3 +1,20 @@
+function actualizar_direccion_p1 () {
+    vx = p1.vx
+    vy = p1.vy
+    if (Math.abs(vx) > Math.abs(vy)) {
+        if (vx > 0) {
+            last_direction_p1 = "right"
+        } else if (vx < 0) {
+            last_direction_p1 = "left"
+        }
+    } else if (Math.abs(vy) > Math.abs(vx)) {
+        if (vy > 0) {
+            last_direction_p1 = "down"
+        } else if (vy < 0) {
+            last_direction_p1 = "up"
+        }
+    }
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (projectile, player2) {
     if (projectile == ProjectileP1 && player2 == p1) {
         return
@@ -24,63 +41,57 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (projectile
         }
     }
 })
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-	
-})
-mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function (player23) {
-    now = game.runtime()
-    if (now - ultimo_disparo_p1 < cooldown_disparo) {
-        return
-    }
-    ultimo_disparo_p1 = now
-    disparo_p12 = true
+mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function () {
     if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.One), mp.MultiplayerButton.A)) {
     	
     } else if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.One), mp.MultiplayerButton.B)) {
+        now = game.runtime()
+        if (now - ultimo_disparo_p1 < cooldown_disparo) {
+            return
+        }
+        ultimo_disparo_p1 = now
+        actualizar_direccion_p1()
+        disparo_p12 = true
         p1 = mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One))
-        vx = p1.vx
-        vy = p1.vy
-        if (Math.abs(vx) > Math.abs(vy)) {
-            if (vx > 0) {
-                ProjectileP1 = sprites.createProjectileFromSprite(img`
-                    . . . . . . . c c c a c . . . . 
-                    . . c c b b b a c a a a c . . . 
-                    . c c a b a c b a a a b c c . . 
-                    . c a b c f f f b a b b b a . . 
-                    . c a c f f f 8 a b b b b b a . 
-                    . c a 8 f f 8 c a b b b b b a . 
-                    c c c a c c c c a b c f a b c c 
-                    c c a a a c c c a c f f c b b a 
-                    c c a b 6 a c c a f f c c b b a 
-                    c a b c 8 6 c c a a a b b c b c 
-                    c a c f f a c c a f a c c c b . 
-                    c a 8 f c c b a f f c b c c c . 
-                    . c b c c c c b f c a b b a c . 
-                    . . a b b b b b b b b b b b c . 
-                    . . . c c c c b b b b b c c . . 
-                    . . . . . . . . c b b c . . . . 
-                    `, p1, velocidad_proyectil, 0)
-            } else {
-                ProjectileP1 = sprites.createProjectileFromSprite(img`
-                    . . . . . . . c c c a c . . . . 
-                    . . c c b b b a c a a a c . . . 
-                    . c c a b a c b a a a b c c . . 
-                    . c a b c f f f b a b b b a . . 
-                    . c a c f f f 8 a b b b b b a . 
-                    . c a 8 f f 8 c a b b b b b a . 
-                    c c c a c c c c a b c f a b c c 
-                    c c a a a c c c a c f f c b b a 
-                    c c a b 6 a c c a f f c c b b a 
-                    c a b c 8 6 c c a a a b b c b c 
-                    c a c f f a c c a f a c c c b . 
-                    c a 8 f c c b a f f c b c c c . 
-                    . c b c c c c b f c a b b a c . 
-                    . . a b b b b b b b b b b b c . 
-                    . . . c c c c b b b b b c c . . 
-                    . . . . . . . . c b b c . . . . 
-                    `, p1, 0 - velocidad_proyectil, 0)
-            }
-        } else if (vy > 0) {
+        if (last_direction_p1 == "right") {
+            ProjectileP1 = sprites.createProjectileFromSprite(img`
+                . . . . . . . c c c a c . . . . 
+                . . c c b b b a c a a a c . . . 
+                . c c a b a c b a a a b c c . . 
+                . c a b c f f f b a b b b a . . 
+                . c a c f f f 8 a b b b b b a . 
+                . c a 8 f f 8 c a b b b b b a . 
+                c c c a c c c c a b c f a b c c 
+                c c a a a c c c a c f f c b b a 
+                c c a b 6 a c c a f f c c b b a 
+                c a b c 8 6 c c a a a b b c b c 
+                c a c f f a c c a f a c c c b . 
+                c a 8 f c c b a f f c b c c c . 
+                . c b c c c c b f c a b b a c . 
+                . . a b b b b b b b b b b b c . 
+                . . . c c c c b b b b b c c . . 
+                . . . . . . . . c b b c . . . . 
+                `, p1, velocidad_proyectil, 0)
+        } else if (last_direction_p1 == "left") {
+            ProjectileP1 = sprites.createProjectileFromSprite(img`
+                . . . . . . . c c c a c . . . . 
+                . . c c b b b a c a a a c . . . 
+                . c c a b a c b a a a b c c . . 
+                . c a b c f f f b a b b b a . . 
+                . c a c f f f 8 a b b b b b a . 
+                . c a 8 f f 8 c a b b b b b a . 
+                c c c a c c c c a b c f a b c c 
+                c c a a a c c c a c f f c b b a 
+                c c a b 6 a c c a f f c c b b a 
+                c a b c 8 6 c c a a a b b c b c 
+                c a c f f a c c a f a c c c b . 
+                c a 8 f c c b a f f c b c c c . 
+                . c b c c c c b f c a b b a c . 
+                . . a b b b b b b b b b b b c . 
+                . . . c c c c b b b b b c c . . 
+                . . . . . . . . c b b c . . . . 
+                `, p1, 0 - velocidad_proyectil, 0)
+        } else if (last_direction_p1 == "down") {
             ProjectileP1 = sprites.createProjectileFromSprite(img`
                 . . . . . . . c c c a c . . . . 
                 . . c c b b b a c a a a c . . . 
@@ -99,7 +110,7 @@ mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function
                 . . . c c c c b b b b b c c . . 
                 . . . . . . . . c b b c . . . . 
                 `, p1, 0, velocidad_proyectil)
-        } else {
+        } else if (last_direction_p1 == "up") {
             ProjectileP1 = sprites.createProjectileFromSprite(img`
                 . . . . . . . c c c a c . . . . 
                 . . c c b b b a c a a a c . . . 
@@ -119,65 +130,64 @@ mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function
                 . . . . . . . . c b b c . . . . 
                 `, p1, 0, 0 - velocidad_proyectil)
         }
+    } else {
+    	
     }
 })
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 	
 })
-mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function (player22) {
-    now2 = game.runtime()
-    if (now2 - ultimo_disparo_p2 < cooldown_disparo) {
-        return
-    }
-    ultimo_disparo_p2 = now2
-    disparo_p23 = true
+mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function () {
     if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.Two), mp.MultiplayerButton.B)) {
     	
     } else if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.Two), mp.MultiplayerButton.A)) {
+        now2 = game.runtime()
+        if (now2 - ultimo_disparo_p2 < cooldown_disparo) {
+            return
+        }
+        ultimo_disparo_p2 = now2
+        disparo_p23 = true
         p2 = mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two))
-        vx = p2.vx
-        vy = p2.vy
-        if (Math.abs(vx) > Math.abs(vy)) {
-            if (vx > 0) {
-                ProjectileP2 = sprites.createProjectileFromSprite(img`
-                    . . . . . b b b b b b . . . . . 
-                    . . . b b 9 9 9 9 9 9 b b . . . 
-                    . . b b 9 9 9 9 9 9 9 9 b b . . 
-                    . b b 9 d 9 9 9 9 9 9 9 9 b b . 
-                    . b 9 d 9 9 9 9 9 1 1 1 9 9 b . 
-                    b 9 d d 9 9 9 9 9 1 1 1 9 9 9 b 
-                    b 9 d 9 9 9 9 9 9 1 1 1 9 9 9 b 
-                    b 9 3 9 9 9 9 9 9 9 9 9 1 9 9 b 
-                    b 5 3 d 9 9 9 9 9 9 9 9 9 9 9 b 
-                    b 5 3 3 9 9 9 9 9 9 9 9 9 d 9 b 
-                    b 5 d 3 3 9 9 9 9 9 9 9 d d 9 b 
-                    . b 5 3 3 3 d 9 9 9 9 d d 5 b . 
-                    . b d 5 3 3 3 3 3 3 3 d 5 b b . 
-                    . . b d 5 d 3 3 3 3 5 5 b b . . 
-                    . . . b b 5 5 5 5 5 5 b b . . . 
-                    . . . . . b b b b b b . . . . . 
-                    `, p2, velocidad_proyectil, 0)
-            } else {
-                ProjectileP2 = sprites.createProjectileFromSprite(img`
-                    . . . . . b b b b b b . . . . . 
-                    . . . b b 9 9 9 9 9 9 b b . . . 
-                    . . b b 9 9 9 9 9 9 9 9 b b . . 
-                    . b b 9 d 9 9 9 9 9 9 9 9 b b . 
-                    . b 9 d 9 9 9 9 9 1 1 1 9 9 b . 
-                    b 9 d d 9 9 9 9 9 1 1 1 9 9 9 b 
-                    b 9 d 9 9 9 9 9 9 1 1 1 9 9 9 b 
-                    b 9 3 9 9 9 9 9 9 9 9 9 1 9 9 b 
-                    b 5 3 d 9 9 9 9 9 9 9 9 9 9 9 b 
-                    b 5 3 3 9 9 9 9 9 9 9 9 9 d 9 b 
-                    b 5 d 3 3 9 9 9 9 9 9 9 d d 9 b 
-                    . b 5 3 3 3 d 9 9 9 9 d d 5 b . 
-                    . b d 5 3 3 3 3 3 3 3 d 5 b b . 
-                    . . b d 5 d 3 3 3 3 5 5 b b . . 
-                    . . . b b 5 5 5 5 5 5 b b . . . 
-                    . . . . . b b b b b b . . . . . 
-                    `, p2, 0 - velocidad_proyectil, 0)
-            }
-        } else if (vy > 0) {
+        actualizar_direccion_p2()
+        if (last_direction_p2 == "right") {
+            ProjectileP2 = sprites.createProjectileFromSprite(img`
+                . . . . . b b b b b b . . . . . 
+                . . . b b 9 9 9 9 9 9 b b . . . 
+                . . b b 9 9 9 9 9 9 9 9 b b . . 
+                . b b 9 d 9 9 9 9 9 9 9 9 b b . 
+                . b 9 d 9 9 9 9 9 1 1 1 9 9 b . 
+                b 9 d d 9 9 9 9 9 1 1 1 9 9 9 b 
+                b 9 d 9 9 9 9 9 9 1 1 1 9 9 9 b 
+                b 9 3 9 9 9 9 9 9 9 9 9 1 9 9 b 
+                b 5 3 d 9 9 9 9 9 9 9 9 9 9 9 b 
+                b 5 3 3 9 9 9 9 9 9 9 9 9 d 9 b 
+                b 5 d 3 3 9 9 9 9 9 9 9 d d 9 b 
+                . b 5 3 3 3 d 9 9 9 9 d d 5 b . 
+                . b d 5 3 3 3 3 3 3 3 d 5 b b . 
+                . . b d 5 d 3 3 3 3 5 5 b b . . 
+                . . . b b 5 5 5 5 5 5 b b . . . 
+                . . . . . b b b b b b . . . . . 
+                `, p2, velocidad_proyectil, 0)
+        } else if (last_direction_p2 == "left") {
+            ProjectileP2 = sprites.createProjectileFromSprite(img`
+                . . . . . b b b b b b . . . . . 
+                . . . b b 9 9 9 9 9 9 b b . . . 
+                . . b b 9 9 9 9 9 9 9 9 b b . . 
+                . b b 9 d 9 9 9 9 9 9 9 9 b b . 
+                . b 9 d 9 9 9 9 9 1 1 1 9 9 b . 
+                b 9 d d 9 9 9 9 9 1 1 1 9 9 9 b 
+                b 9 d 9 9 9 9 9 9 1 1 1 9 9 9 b 
+                b 9 3 9 9 9 9 9 9 9 9 9 1 9 9 b 
+                b 5 3 d 9 9 9 9 9 9 9 9 9 9 9 b 
+                b 5 3 3 9 9 9 9 9 9 9 9 9 d 9 b 
+                b 5 d 3 3 9 9 9 9 9 9 9 d d 9 b 
+                . b 5 3 3 3 d 9 9 9 9 d d 5 b . 
+                . b d 5 3 3 3 3 3 3 3 d 5 b b . 
+                . . b d 5 d 3 3 3 3 5 5 b b . . 
+                . . . b b 5 5 5 5 5 5 b b . . . 
+                . . . . . b b b b b b . . . . . 
+                `, p2, 0 - velocidad_proyectil, 0)
+        } else if (last_direction_p2 == "down") {
             ProjectileP2 = sprites.createProjectileFromSprite(img`
                 . . . . . b b b b b b . . . . . 
                 . . . b b 9 9 9 9 9 9 b b . . . 
@@ -196,7 +206,7 @@ mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function
                 . . . b b 5 5 5 5 5 5 b b . . . 
                 . . . . . b b b b b b . . . . . 
                 `, p2, 0, velocidad_proyectil)
-        } else {
+        } else if (last_direction_p2 == "up") {
             ProjectileP2 = sprites.createProjectileFromSprite(img`
                 . . . . . b b b b b b . . . . . 
                 . . . b b 9 9 9 9 9 9 b b . . . 
@@ -216,7 +226,12 @@ mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function
                 . . . . . b b b b b b . . . . . 
                 `, p2, 0, 0 - velocidad_proyectil)
         }
+    } else {
+    	
     }
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+	
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 	
@@ -224,16 +239,35 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 	
 })
+function actualizar_direccion_p2 () {
+    vx2 = p2.vx
+    vy2 = p2.vy
+    if (Math.abs(vx2) > Math.abs(vy2)) {
+        if (vx2 > 0) {
+            last_direction_p2 = "right"
+        } else if (vx2 < 0) {
+            last_direction_p2 = "left"
+        }
+    } else if (Math.abs(vy2) > Math.abs(vx2)) {
+        if (vy2 > 0) {
+            last_direction_p2 = "down"
+        } else if (vy2 < 0) {
+            last_direction_p2 = "up"
+        }
+    }
+}
+let vy2 = 0
+let vx2 = 0
 let disparo_p23 = false
 let ultimo_disparo_p2 = 0
 let now2 = 0
-let vy = 0
-let vx = 0
 let disparo_p12 = false
 let ultimo_disparo_p1 = 0
 let now = 0
 let ProjectileP2: Sprite = null
 let ProjectileP1: Sprite = null
+let vy = 0
+let vx = 0
 let status_p2: StatusBarSprite = null
 let status_p1: StatusBarSprite = null
 let p2: Sprite = null
@@ -242,6 +276,15 @@ let vida_p1 = 0
 let vida_p2 = 0
 let velocidad_proyectil = 0
 let cooldown_disparo = 0
+let last_direction_p2 = ""
+let last_direction_p1 = ""
+let now3 = 0
+let vx3 = 0
+let vy3 = 0
+let vx22 = 0
+let vy22 = 0
+last_direction_p1 = "right"
+last_direction_p2 = "left"
 cooldown_disparo = 500
 velocidad_proyectil = 150
 vida_p2 = 3
@@ -294,5 +337,7 @@ function mostrar_ganador(ganador: any) {
     
 }
 game.onUpdate(function () {
+    actualizar_direccion_p1()
+    actualizar_direccion_p2()
     scene.centerCameraAt((mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)).x + mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two)).x) / 2, (mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)).y + mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two)).y) / 2)
 })
