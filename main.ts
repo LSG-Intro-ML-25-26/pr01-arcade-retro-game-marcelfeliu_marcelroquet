@@ -35,6 +35,12 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
 })
 mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function on_button_multiplayer_b_pressed(player23: mp.Player) {
     
+    now = game.runtime()
+    if (now - ultimo_disparo_p1 < cooldown_disparo) {
+        return
+    }
+    
+    ultimo_disparo_p1 = now
     disparo_p12 = true
     if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.One), mp.MultiplayerButton.A)) {
         
@@ -131,6 +137,12 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function on_left_pressed(
 })
 mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function on_button_multiplayer_a_pressed(player22: mp.Player) {
     
+    now2 = game.runtime()
+    if (now2 - ultimo_disparo_p2 < cooldown_disparo) {
+        return
+    }
+    
+    ultimo_disparo_p2 = now2
     disparo_p23 = true
     if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.Two), mp.MultiplayerButton.B)) {
         
@@ -229,27 +241,27 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function on_down_pressed(
     
 })
 let disparo_p23 = false
+let ultimo_disparo_p2 = 0
+let now2 = 0
 let vy = 0
 let vx = 0
 let disparo_p12 = false
+let ultimo_disparo_p1 = 0
+let now = 0
 let ProjectileP2 : Sprite = null
 let ProjectileP1 : Sprite = null
 let status_p2 : StatusBarSprite = null
 let status_p1 : StatusBarSprite = null
-let velocidad_proyectil = 0
 let p2 : Sprite = null
 let p1 : Sprite = null
-let vida_p2 = 0
 let vida_p1 = 0
-let vy2 = 0
-let vx2 = 0
-let p22 = null
-let disparo_p2 = false
-let disparo_p1 = false
-let disparo_p13 = false
-let disparo_p22 = false
-vida_p1 = 3
+let vida_p2 = 0
+let velocidad_proyectil = 0
+let cooldown_disparo = 0
+cooldown_disparo = 500
+velocidad_proyectil = 150
 vida_p2 = 3
+vida_p1 = 3
 tiles.setCurrentTilemap(tilemap`
     level1
     `)
@@ -274,7 +286,6 @@ p2 = sprites.create(img`
         . . . f c c f f f f f f . . . .
         . . . . f f . . . f f f . . . .
         `, SpriteKind.Player)
-velocidad_proyectil = 150
 mp.setPlayerSprite(mp.playerSelector(mp.PlayerNumber.One), p1)
 mp.setPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two), p2)
 mp.moveWithButtons(mp.playerSelector(mp.PlayerNumber.One), 100, 100)
@@ -282,24 +293,19 @@ mp.moveWithButtons(mp.playerSelector(mp.PlayerNumber.Two), 100, 100)
 scene.cameraFollowSprite(mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)))
 scene.cameraFollowSprite(mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two)))
 mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)).setStayInScreen(true)
-mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.One)).setStayInScreen(true)
+mp.getPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two)).setStayInScreen(true)
 status_p1 = statusbars.create(20, 4, StatusBarKind.Health)
 status_p1.attachToSprite(p1)
-status_p1.value = 3
-status_p1.max = 3
+status_p1.value = vida_p1
+status_p1.max = vida_p1
 status_p2 = statusbars.create(20, 4, StatusBarKind.Health)
 status_p2.attachToSprite(p2)
-status_p2.value = 3
-status_p2.max = 3
-status_p1.value = vida_p1
 status_p2.value = vida_p2
+status_p2.max = vida_p2
 status_p1.setBarBorder(1, 13)
-//  negro
 status_p2.setBarBorder(1, 13)
 function mostrar_ganador(ganador: any) {
-    //  Detener el juego
     game.over(false)
-    //  Mostrar mensaje de ganador
     if (ganador == 1) {
         game.showLongText("¡Jugador 1 ha ganado!", DialogLayout.Bottom)
     } else {

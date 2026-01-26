@@ -26,7 +26,11 @@ def on_up_pressed():
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def on_button_multiplayer_b_pressed(player23):
-    global disparo_p12, p1, vx, vy, ProjectileP1
+    global now, ultimo_disparo_p1, disparo_p12, p1, vx, vy, ProjectileP1
+    now = game.runtime()
+    if now - ultimo_disparo_p1 < cooldown_disparo:
+        return
+    ultimo_disparo_p1 = now
     disparo_p12 = True
     if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.ONE),
         mp.MultiplayerButton.A):
@@ -134,7 +138,11 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def on_button_multiplayer_a_pressed(player22):
-    global disparo_p23, p2, vx, vy, ProjectileP2
+    global now2, ultimo_disparo_p2, disparo_p23, p2, vx, vy, ProjectileP2
+    now2 = game.runtime()
+    if now2 - ultimo_disparo_p2 < cooldown_disparo:
+        return
+    ultimo_disparo_p2 = now2
     disparo_p23 = True
     if mp.is_button_pressed(mp.player_selector(mp.PlayerNumber.TWO),
         mp.MultiplayerButton.B):
@@ -246,27 +254,27 @@ def on_down_pressed():
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
 disparo_p23 = False
+ultimo_disparo_p2 = 0
+now2 = 0
 vy = 0
 vx = 0
 disparo_p12 = False
+ultimo_disparo_p1 = 0
+now = 0
 ProjectileP2: Sprite = None
 ProjectileP1: Sprite = None
 status_p2: StatusBarSprite = None
 status_p1: StatusBarSprite = None
-velocidad_proyectil = 0
 p2: Sprite = None
 p1: Sprite = None
-vida_p2 = 0
 vida_p1 = 0
-vy2 = 0
-vx2 = 0
-p22 = None
-disparo_p2 = False
-disparo_p1 = False
-disparo_p13 = False
-disparo_p22 = False
-vida_p1 = 3
+vida_p2 = 0
+velocidad_proyectil = 0
+cooldown_disparo = 0
+cooldown_disparo = 500
+velocidad_proyectil = 150
 vida_p2 = 3
+vida_p1 = 3
 tiles.set_current_tilemap(tilemap("""
     level1
     """))
@@ -292,7 +300,6 @@ p2 = sprites.create(img("""
         . . . . f f . . . f f f . . . .
         """),
     SpriteKind.player)
-velocidad_proyectil = 150
 mp.set_player_sprite(mp.player_selector(mp.PlayerNumber.ONE), p1)
 mp.set_player_sprite(mp.player_selector(mp.PlayerNumber.TWO), p2)
 mp.move_with_buttons(mp.player_selector(mp.PlayerNumber.ONE), 100, 100)
@@ -300,24 +307,19 @@ mp.move_with_buttons(mp.player_selector(mp.PlayerNumber.TWO), 100, 100)
 scene.camera_follow_sprite(mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)))
 scene.camera_follow_sprite(mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)))
 mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).set_stay_in_screen(True)
-mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.ONE)).set_stay_in_screen(True)
+mp.get_player_sprite(mp.player_selector(mp.PlayerNumber.TWO)).set_stay_in_screen(True)
 status_p1 = statusbars.create(20, 4, StatusBarKind.health)
 status_p1.attach_to_sprite(p1)
-status_p1.value = 3
-status_p1.max = 3
+status_p1.value = vida_p1
+status_p1.max = vida_p1
 status_p2 = statusbars.create(20, 4, StatusBarKind.health)
 status_p2.attach_to_sprite(p2)
-status_p2.value = 3
-status_p2.max = 3
-status_p1.value = vida_p1
 status_p2.value = vida_p2
+status_p2.max = vida_p2
 status_p1.set_bar_border(1, 13)
-# negro
 status_p2.set_bar_border(1, 13)
 def mostrar_ganador(ganador: any):
-    # Detener el juego
     game.over(False)
-    # Mostrar mensaje de ganador
     if ganador == 1:
         game.show_long_text("¡Jugador 1 ha ganado!", DialogLayout.BOTTOM)
     else:
