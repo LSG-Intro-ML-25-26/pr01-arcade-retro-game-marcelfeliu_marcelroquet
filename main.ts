@@ -1,5 +1,3 @@
-let disparo_p1 = false
-let disparo_p2 = false
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function on_on_overlap(projectile: Sprite, player2: Sprite) {
     
     if (projectile == ProjectileP1 && player2 == p1) {
@@ -12,7 +10,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function on_on_overl
     
     projectile.destroy()
     if (player2 == p1) {
-        vida_p1 -= 1
+        vida_p1 += 0 - 1
         status_p1.value = vida_p1
         player2.startEffect(effects.fire, 200)
         if (vida_p1 <= 0) {
@@ -21,7 +19,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function on_on_overl
         }
         
     } else if (player2 == p2) {
-        vida_p2 -= 1
+        vida_p2 += 0 - 1
         status_p2.value = vida_p2
         player2.startEffect(effects.fire, 200)
         if (vida_p2 <= 0) {
@@ -37,8 +35,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
 })
 mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function on_button_multiplayer_b_pressed(player23: mp.Player) {
     
-    let disparo_p1 = true
-    let disparo_p2 = false
+    disparo_p12 = true
     if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.One), mp.MultiplayerButton.A)) {
         
     } else if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.One), mp.MultiplayerButton.B)) {
@@ -64,7 +61,7 @@ mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function
                         . . a b b b b b b b b b b b c .
                         . . . c c c c b b b b b c c . .
                         . . . . . . . . c b b c . . . .
-                        `, p1, 50, 0)
+                        `, p1, velocidad_proyectil, 0)
             } else {
                 ProjectileP1 = sprites.createProjectileFromSprite(img`
                         . . . . . . . c c c a c . . . .
@@ -83,7 +80,7 @@ mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function
                         . . a b b b b b b b b b b b c .
                         . . . c c c c b b b b b c c . .
                         . . . . . . . . c b b c . . . .
-                        `, p1, -50, 0)
+                        `, p1, 0 - velocidad_proyectil, 0)
             }
             
         } else if (vy > 0) {
@@ -104,7 +101,7 @@ mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function
                     . . a b b b b b b b b b b b c .
                     . . . c c c c b b b b b c c . .
                     . . . . . . . . c b b c . . . .
-                    `, p1, 0, 50)
+                    `, p1, 0, velocidad_proyectil)
         } else {
             ProjectileP1 = sprites.createProjectileFromSprite(img`
                     . . . . . . . c c c a c . . . .
@@ -123,7 +120,7 @@ mp.onButtonEvent(mp.MultiplayerButton.B, ControllerButtonEvent.Pressed, function
                     . . a b b b b b b b b b b b c .
                     . . . c c c c b b b b b c c . .
                     . . . . . . . . c b b c . . . .
-                    `, p1, 0, -50)
+                    `, p1, 0, 0 - velocidad_proyectil)
         }
         
     }
@@ -134,8 +131,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function on_left_pressed(
 })
 mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function on_button_multiplayer_a_pressed(player22: mp.Player) {
     
-    let disparo_p2 = true
-    let disparo_p1 = false
+    disparo_p23 = true
     if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.Two), mp.MultiplayerButton.B)) {
         
     } else if (mp.isButtonPressed(mp.playerSelector(mp.PlayerNumber.Two), mp.MultiplayerButton.A)) {
@@ -161,7 +157,7 @@ mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function
                         . . b d 5 d 3 3 3 3 5 5 b b . .
                         . . . b b 5 5 5 5 5 5 b b . . .
                         . . . . . b b b b b b . . . . .
-                        `, p2, 50, 0)
+                        `, p2, velocidad_proyectil, 0)
             } else {
                 ProjectileP2 = sprites.createProjectileFromSprite(img`
                         . . . . . b b b b b b . . . . .
@@ -180,7 +176,7 @@ mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function
                         . . b d 5 d 3 3 3 3 5 5 b b . .
                         . . . b b 5 5 5 5 5 5 b b . . .
                         . . . . . b b b b b b . . . . .
-                        `, p2, -50, 0)
+                        `, p2, 0 - velocidad_proyectil, 0)
             }
             
         } else if (vy > 0) {
@@ -201,7 +197,7 @@ mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function
                     . . b d 5 d 3 3 3 3 5 5 b b . .
                     . . . b b 5 5 5 5 5 5 b b . . .
                     . . . . . b b b b b b . . . . .
-                    `, p2, 0, 50)
+                    `, p2, 0, velocidad_proyectil)
         } else {
             ProjectileP2 = sprites.createProjectileFromSprite(img`
                     . . . . . b b b b b b . . . . .
@@ -220,7 +216,7 @@ mp.onButtonEvent(mp.MultiplayerButton.A, ControllerButtonEvent.Pressed, function
                     . . b d 5 d 3 3 3 3 5 5 b b . .
                     . . . b b 5 5 5 5 5 5 b b . . .
                     . . . . . b b b b b b . . . . .
-                    `, p2, 0, -50)
+                    `, p2, 0, 0 - velocidad_proyectil)
         }
         
     }
@@ -232,19 +228,26 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function on_right_presse
 controller.down.onEvent(ControllerButtonEvent.Pressed, function on_down_pressed() {
     
 })
-let ProjectileP2 : Sprite = null
-let ProjectileP1 : Sprite = null
+let disparo_p23 = false
 let vy = 0
 let vx = 0
+let disparo_p12 = false
+let ProjectileP2 : Sprite = null
+let ProjectileP1 : Sprite = null
 let status_p2 : StatusBarSprite = null
 let status_p1 : StatusBarSprite = null
+let velocidad_proyectil = 0
 let p2 : Sprite = null
 let p1 : Sprite = null
 let vida_p2 = 0
 let vida_p1 = 0
-let p22 = null
-let vx2 = 0
 let vy2 = 0
+let vx2 = 0
+let p22 = null
+let disparo_p2 = false
+let disparo_p1 = false
+let disparo_p13 = false
+let disparo_p22 = false
 vida_p1 = 3
 vida_p2 = 3
 tiles.setCurrentTilemap(tilemap`
@@ -271,6 +274,7 @@ p2 = sprites.create(img`
         . . . f c c f f f f f f . . . .
         . . . . f f . . . f f f . . . .
         `, SpriteKind.Player)
+velocidad_proyectil = 150
 mp.setPlayerSprite(mp.playerSelector(mp.PlayerNumber.One), p1)
 mp.setPlayerSprite(mp.playerSelector(mp.PlayerNumber.Two), p2)
 mp.moveWithButtons(mp.playerSelector(mp.PlayerNumber.One), 100, 100)
@@ -292,7 +296,6 @@ status_p2.value = vida_p2
 status_p1.setBarBorder(1, 13)
 //  negro
 status_p2.setBarBorder(1, 13)
-//  negro
 function mostrar_ganador(ganador: any) {
     //  Detener el juego
     game.over(false)
