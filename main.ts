@@ -381,6 +381,30 @@ controller.player2.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.P
     false
     )
 })
+function mostrar_lore () {
+    en_lore = true
+    scene.setBackgroundImage(assets.image`
+                
+                `)
+    story.printDialog("Durante años el pueblo de Sinfos ha vivido en paz,", 80, 90, 50, 150)
+    scene.setBackgroundImage(assets.image`
+                
+                `)
+    story.printDialog("lo que no saben es que ahora el Dios Arnau conocido como el dios bastárdo quiere sus tierras", 80, 90, 50, 150)
+    scene.setBackgroundImage(assets.image`
+                
+                `)
+    story.printDialog("Dios Pau, su hermano, heredero legítimo del pueblo deberá defenderlo.", 80, 90, 50, 150)
+    scene.setBackgroundImage(assets.image`
+                
+                `)
+    story.printDialog("Los dos hermanos se enfrentarán en una batalla final.", 80, 90, 50, 150)
+    scene.setBackgroundImage(assets.image`
+                
+                `)
+    story.printDialog("¿Podrá Dios Pau mantener la paz en Sinfos?", 80, 90, 50, 150)
+    en_lore = false
+}
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 	
 })
@@ -616,11 +640,14 @@ let velocidad_proyectil = 0
 let cooldown_disparo = 0
 let last_direction_p2 = ""
 let last_direction_p1 = ""
+let en_lore = false
 let now3 = 0
 let vx3 = 0
 let vy3 = 0
 let vx22 = 0
 let vy22 = 0
+en_lore = true
+mostrar_lore()
 last_direction_p1 = "right"
 last_direction_p2 = "left"
 cooldown_disparo = 500
