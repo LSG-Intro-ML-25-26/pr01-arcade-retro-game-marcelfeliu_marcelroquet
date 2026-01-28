@@ -4,24 +4,36 @@
 
 > Open this page at [https://raimonizard.github.io/makecode-arcade-template-nena-mov/](https://raimonizard.github.io/makecode-arcade-template-nena-mov/)
 
-## Use as Extension
+# ⚔️ Dioses de Sinfos — Micro:bit Arcade
 
-This repository can be added as an **extension** in MakeCode.
+## 👥 Integrantes  
+- Marcel Feliu  
+- Marcel Roquet
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and import
+---
 
-## Edit this project
+## 📖 Lore  
+Durante años, el pueblo de **Sinfos** ha vivido en paz… hasta que el **Dios Arnau**, ambicioso y despiadado, decide reclamar las tierras como suyas.  
+Su hermano, el **Dios Pau**, heredero legítimo, se interpone en su camino.  
 
-To edit this repository in MakeCode.
+Ambos dioses se enfrentan en una **batalla final** donde solo uno decidirá el destino de Sinfos:  
+- Si gana **Pau**, el pueblo será salvado.  
+- Si gana **Arnau**, Sinfos caerá en una era de sufrimiento eterno.  
+---
 
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **Import** then click on **Import URL**
-* paste **https://github.com/raimonizard/makecode-arcade-template-nena-mov** and click import
+## 🧙‍♂️ Personajes  
 
-#### Metadata (used for search, rendering)
+| Personaje | Descripción |
+|--------|-------------|
+| **Dios Pau** | Protector de Sinfos, usa magia para defender la paz. |
+| **Dios Arnau** | Dios traidor que quiere conquistar el pueblo. |
 
-* for PXT/arcade
-<script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
+---
+<img width="1381" height="1041" alt="image" src="https://github.com/user-attachments/assets/c697919e-abe0-4441-aea1-0447585602f8" />
+
+<img width="1382" height="1038" alt="image" src="https://github.com/user-attachments/assets/535912ce-268e-4ec3-b5dd-0a68320e4de8" />
+
+<img width="1386" height="1041" alt="image" src="https://github.com/user-attachments/assets/2eebb26a-2d43-4fd8-8c55-516e1e2e4397" />
+
+## Video Demo
+https://drive.google.com/file/d/1afm3kEwScvuDgvU0bwAekhoeLCrovhq5/view?usp=drive_link
