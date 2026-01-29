@@ -36,7 +36,7 @@ Ambos dioses se enfrentan en una **batalla final** donde solo uno decidirá el d
 <img width="1386" height="1041" alt="image" src="https://github.com/user-attachments/assets/2eebb26a-2d43-4fd8-8c55-516e1e2e4397" />
 
 ## Video Demo
-https://drive.google.com/file/d/1afm3kEwScvuDgvU0bwAekhoeLCrovhq5/view?usp=drive_link
+https://drive.google.com/file/d/1mAZz2Yec-otUjfVaUgWRIkVPUBUTDRyw/view?usp=sharing
 
 ## Presentació
 https://prezi.com/view/7zA5YzWYv1ZnU9YMzpjN/?referral_token=xJueqHlnB3FN
